@@ -148,12 +148,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Batch List</h1>
+            <h1>Subject List</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/home">Home</a></li>
-              <li class="breadcrumb-item active">Batch List</li>
+              <li class="breadcrumb-item active">Subject List</li>
             </ol>
           </div>
         </div>
@@ -168,7 +168,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Course</h3>
+                <h3 class="card-title">Subject</h3>
                 <?php  $user = Auth::user();
                 $role = App\Models\Role::where('id', $user->role)->get()->first(); 
                 $permission = explode(',', $role->permission_id);
@@ -180,8 +180,8 @@
 
                     <!-- <div class="input-group-append"> -->
                       <?php if(in_array('Add', $permission)){ ?>
-                      <a href="{{ asset('/batch') }}/add" class="btn btn-primary ">
-                        Add Batch
+                      <a href="{{ asset('/student') }}/add" class="btn btn-primary ">
+                        Add Student
                       </a>  
                       <?php } ?>
                     <!-- </div> -->
@@ -194,8 +194,8 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Batch Name</th>
-                      <th>status</th>
+                      <th>Student Name</th>
+                      <th>Email</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -204,17 +204,11 @@
                     @foreach($all as $data)
                       <tr>
                         <td>{{ $data->id }}</td>
-                        <td>{{ $data->batch_name}}</td>
-                        <td>
-                          @if($data->status == '1')
-                              Active
-                          @else 
-                              Not Active
-                          @endif
-                        </td>
+                        <td>{{ $data->name}}</td>
+                        <td>{{ $data->email}}</td>
                         <td>
                           <?php if(in_array('Edit', $permission)){ ?>
-                          <a href="{{ asset('batch') }}/edit/{{$data->id}}"><i class="fas fa-edit"></i></a>
+                          <a href="{{ asset('student') }}/edit/{{$data->id}}"><i class="fas fa-edit"></i></a>
                           <?php } ?>
                         </td>
                       </tr>

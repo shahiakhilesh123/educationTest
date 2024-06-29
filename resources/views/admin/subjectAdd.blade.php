@@ -142,100 +142,125 @@
     margin-top: 1rem;
 }
 </style>
+<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Batch List</h1>
+            <h1>Add Subject</h1>
           </div>
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/home">Home</a></li>
-              <li class="breadcrumb-item active">Batch List</li>
-            </ol>
+            <!-- <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{ asset('/home') }}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{ asset('/posts') }}">Posts</a></li>
+              <li class="breadcrumb-item active">Add Post</li>
+            </ol> -->
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
-    <!-- Main content -->
+        <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <!-- /.row -->
         <div class="row">
-          <div class="col-12">
-            <div class="card">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Course</h3>
-                <?php  $user = Auth::user();
-                $role = App\Models\Role::where('id', $user->role)->get()->first(); 
-                $permission = explode(',', $role->permission_id);
-                $permission = App\Models\Permission::whereIn('id', $permission)->get()->pluck('type')->toArray();
-                ?>
-                <div class="card-tool s">
-                  <div class="input-group input-group-sm float-right" style="width: 150px;">
-                    <!-- <input type="text" name="table_search" class="form-control float-right" placeholder="Search"> -->
-
-                    <!-- <div class="input-group-append"> -->
-                      <?php if(in_array('Add', $permission)){ ?>
-                      <a href="{{ asset('/batch') }}/add" class="btn btn-primary ">
-                        Add Batch
-                      </a>  
-                      <?php } ?>
-                    <!-- </div> -->
-                  </div>
-                </div>
+                <h3 class="card-title">Add Subject</h3>
               </div>
               <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Batch Name</th>
-                      <th>status</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  @if(count($all) > 0)
-                    @foreach($all as $data)
-                      <tr>
-                        <td>{{ $data->id }}</td>
-                        <td>{{ $data->batch_name}}</td>
-                        <td>
-                          @if($data->status == '1')
-                              Active
-                          @else 
-                              Not Active
-                          @endif
-                        </td>
-                        <td>
-                          <?php if(in_array('Edit', $permission)){ ?>
-                          <a href="{{ asset('batch') }}/edit/{{$data->id}}"><i class="fas fa-edit"></i></a>
-                          <?php } ?>
-                        </td>
-                      </tr>
-                    @endforeach
-                  @else
-                    <tr><td colspan="4">No Data Found</td></tr>
-                  @endif
-                  </tbody>
-                </table>
+              <!-- form start -->
+              <form method="post" action="{{asset('subject/add')}}">
+              @csrf
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="name">Subject Name</label>
+                    <input type="text" name="subject_name" class="form-control" id="subject_name">
+                    @error('subject_name')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('subject_name') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <button type="submit" name="publish" value="pub" class="btn btn-primary">Save</button>&nbsp;&nbsp;&nbsp;
+                  <!-- <button type="submit" name="draft" value="du" class="btn btn-primary">Save as Draft</button> -->
+                </div>
+              </form>
               </div>
-              <div class="card-footer clearfix">
-              {{ $all->links() }}
+                <!-- /.modal-dialog -->
               </div>
-              <!-- /.card-body -->
             </div>
             <!-- /.card -->
           </div>
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
-    <!-- /.content -->
-  </div>
-  @endsection
+</div>
+<script>
+  $('.upload_image_button').click(function () {
+    $('#image_box').val($(this).data('box'));
+  });
+  $('.image_sec').click(function () {
+    $('.popup').removeAttr('style');
+    $(this).parent().attr('style','border: 5px solid blue;');
+    $('#image_name').val($(this).data('name'));
+    $('#image_id').val($(this).data('id'));
+    $('#image_thumb_name').val($(this).data('name'));
+    $('#image_thumb_id').val($(this).data('id'));
+  })
+  $('#save_image').click(function () {
+    $('#id_images').val($('#image_id').val());
+    $('#name_images').val($('#image_name').val());
+    //$('#images').val($(this).data('id'));
+  })
+  $('#save_thumb_image').click(function () {
+    $('#id_thumb_images').val($('#image_thumb_id').val());
+    $('#name_thumb_images').val($('#image_thumb_name').val());
+    //$('#images').val($(this).data('id'));
+  })
+  $('#image_upload_form').submit(function(event) {
+    event.preventDefault();
+    var file = $('#customFile').prop('files')[0];
+    var form_data = new FormData($(this)[0]);
+    form_data.append('file', file, file.name);
+    $.ajax({
+            url: '{{ asset("/files/upload") }}',
+            type: 'POST',   
+            contentType: false,
+            processData: false,   
+            cache: false,        
+            data: form_data,
+            success: function(data) {
+              let html = '';
+                if (data.success) {
+                  if(data.box == 'thumb') {
+                    $('#id_thumb_images').val(data.file_id);
+                    $('#name_thumb_images').val(data.file_name);
+                  } else {
+                    $('#id_images').val(data.file_id);
+                    $('#name_images').val(data.file_name);
+                  }
+                  $('#close').attr('data-dismiss',"modal");
+                  $('#close').click();
+                  $('#close').removeAttr('data-dismiss');
+                } else {
+                  alert('error');
+                }
+            },
+            error: function(data) {
+                console.log("this is error");
+            }
+    });
+  });
+</script>
+@endsection

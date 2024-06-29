@@ -13,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('batch', function (Blueprint $table) {
+        Schema::create('batch_mode', function (Blueprint $table) {
             $table->id();
-            $table->string('batch_name');
-            $table->tinyText('subject');
-            $table->tinyText('batch_mode');
-            $table->tinyText('start_date');
-            $table->tinyText('start_time');
-            $table->tinyText('phone_number');
-            $table->tinyText('medium');
+            $table->string('mode_name');
             $table->tinyInteger('status');
-            $table->timestamps();
         });
     }
 
@@ -34,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('batch');
+        Schema::dropIfExists('batch_mode');
     }
 };

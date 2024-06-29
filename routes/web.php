@@ -41,6 +41,27 @@ Route::prefix('/batch')->group(function () {
     Route::get('/edit/{id}', [App\Http\Controllers\BatchController::class, 'edit'])->name('EditBatch');
     Route::post('/edit/{id}', [App\Http\Controllers\BatchController::class, 'saveEdit'])->name('SaveEditBatch');
 });
+Route::prefix('/subject')->group(function () {
+    Route::get('/', [App\Http\Controllers\SubjectController::class, 'index'])->name('SubjectList');
+    Route::get('/add', [App\Http\Controllers\SubjectController::class, 'add'])->name('addSubject');
+    Route::post('/add', [App\Http\Controllers\SubjectController::class, 'save'])->name('SaveSubject');
+    Route::get('/edit/{id}', [App\Http\Controllers\SubjectController::class, 'edit'])->name('EditSubject');
+    Route::post('/edit/{id}', [App\Http\Controllers\SubjectController::class, 'saveEdit'])->name('SaveEditSubject');
+});
+Route::prefix('/student')->group(function () {
+    Route::get('/', [App\Http\Controllers\StudentController::class, 'index'])->name('StudentList');
+    Route::get('/add', [App\Http\Controllers\StudentController::class, 'add'])->name('addStudent');
+    Route::post('/add', [App\Http\Controllers\StudentController::class, 'save'])->name('SaveStudent');
+    Route::get('/edit/{id}', [App\Http\Controllers\StudentController::class, 'edit'])->name('EditStudent');
+    Route::post('/edit/{id}', [App\Http\Controllers\StudentController::class, 'saveEdit'])->name('SaveEditStudent');
+});
+Route::prefix('/teacher')->group(function () {
+    Route::get('/', [App\Http\Controllers\TeacherController::class, 'index'])->name('TeacherList');
+    Route::get('/add', [App\Http\Controllers\TeacherController::class, 'add'])->name('addTeacher');
+    Route::post('/add', [App\Http\Controllers\TeacherController::class, 'save'])->name('SaveTeacher');
+    Route::get('/edit/{id}', [App\Http\Controllers\TeacherController::class, 'edit'])->name('EditTeacher');
+    Route::post('/edit/{id}', [App\Http\Controllers\TeacherController::class, 'saveEdit'])->name('SaveEditTeacher');
+});
 Route::prefix('roles')->group(function () {
     Route::get('/', [App\Http\Controllers\RoleController::class, 'index'])->name('RoleList');
     Route::get('/add', [App\Http\Controllers\RoleController::class, 'add'])->name('addRole');
