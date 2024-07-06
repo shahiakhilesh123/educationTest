@@ -18,7 +18,7 @@ class UsersController extends Controller
     }
     public function add()
     {
-        $role = Role::whereNot('id', 3)->get()->all();
+        $role = Role::whereNot('id', 2)->get()->all();
         return view('/admin/addUser', ['roles'=>$role]);
     }
     public function save(Request $request)
@@ -33,7 +33,7 @@ class UsersController extends Controller
         User::create([
             'role' => $request->role,
             'name' =>  $request->name,
-            'url_name' => $request->url_name,
+            'description' => $request->description,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

@@ -49,19 +49,6 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <label for="name">Url Name(Name In English)</label>
-                    <input type="text" name="url_name" class="form-control" id="url_name">
-                    @error('url_name')
-                      <div class="input-group-append">
-                        <div class="input-group-text">
-                          <!-- <span class="fas fa-envelope"> -->
-                          {{ $errors->first('url_name') }}
-                          <!-- </span> -->
-                        </div>
-                      </div>
-                    @enderror
-                  </div>
-                  <div class="form-group">
                     <label for="exampleInputPassword1">Select User Type</label>
                       <select class="form-control" name="role">
                         <option value="0">Select User Type</option>
@@ -78,6 +65,19 @@
                           </div>
                         </div>
                       @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Description</label>
+                    <input type="text" name="description" class="form-control" id="description">
+                    @error('description')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('description') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Email</label>

@@ -18,8 +18,12 @@ Auth::routes();
 Route::get('/', function () {
     return redirect('/login');
 });
-//Route::get('/urlchange',[App\Http\Controllers\TestController::class, 'changeUrl'])->name('changeUrl');
-//Route::get('/', [App\Http\Controllers\HomeController::class, 'homePage'])->name('homePage');
+Route::get('/welcome',[App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
+Route::get('/about', [App\Http\Controllers\WelcomeController::class, 'about'])->name('about');
+Route::get('/courses', [App\Http\Controllers\WelcomeController::class, 'courses'])->name('courses');
+Route::get('/team', [App\Http\Controllers\WelcomeController::class, 'team'])->name('team');
+Route::get('/testimonial', [App\Http\Controllers\WelcomeController::class, 'testimonial'])->name('testimonial');
+Route::get('/404', [App\Http\Controllers\WelcomeController::class, 'error'])->name('error');
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/menu', [App\Http\Controllers\MenuController::class, 'menuList'])->name('menulist');
@@ -55,12 +59,12 @@ Route::prefix('/student')->group(function () {
     Route::get('/edit/{id}', [App\Http\Controllers\StudentController::class, 'edit'])->name('EditStudent');
     Route::post('/edit/{id}', [App\Http\Controllers\StudentController::class, 'saveEdit'])->name('SaveEditStudent');
 });
-Route::prefix('/teacher')->group(function () {
-    Route::get('/', [App\Http\Controllers\TeacherController::class, 'index'])->name('TeacherList');
-    Route::get('/add', [App\Http\Controllers\TeacherController::class, 'add'])->name('addTeacher');
-    Route::post('/add', [App\Http\Controllers\TeacherController::class, 'save'])->name('SaveTeacher');
-    Route::get('/edit/{id}', [App\Http\Controllers\TeacherController::class, 'edit'])->name('EditTeacher');
-    Route::post('/edit/{id}', [App\Http\Controllers\TeacherController::class, 'saveEdit'])->name('SaveEditTeacher');
+Route::prefix('/chapter')->group(function () {
+    Route::get('/', [App\Http\Controllers\ChapterController::class, 'index'])->name('chapterList');
+    Route::get('/add', [App\Http\Controllers\ChapterController::class, 'add'])->name('addChapter');
+    Route::post('/add', [App\Http\Controllers\ChapterController::class, 'save'])->name('SaveChapter');
+    Route::get('/edit/{id}', [App\Http\Controllers\ChapterController::class, 'edit'])->name('EditChapter');
+    Route::post('/edit/{id}', [App\Http\Controllers\ChapterController::class, 'saveEdit'])->name('SaveEditChapter');
 });
 Route::prefix('roles')->group(function () {
     Route::get('/', [App\Http\Controllers\RoleController::class, 'index'])->name('RoleList');
