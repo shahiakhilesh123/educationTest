@@ -204,7 +204,7 @@
                     @foreach($all as $data)
                       <tr>
                         <td>{{ $data->id }}</td>
-                        <td>{{ $data->course_name}}</td>
+                        <td>{{ $data->name }}</td>
                         <td>
                           @if($data->status == '1')
                               Active

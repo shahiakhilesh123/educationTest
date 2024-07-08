@@ -17,8 +17,23 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->longText('detail')->nullable();
-            $table->text('pdf')->nullable();
-            $table->text('video_links')->nullable();
+            $table->text('pdf1')->nullable();
+            $table->tinyInteger('pdf1_status')->default('0');
+            $table->text('pdf2')->nullable();
+            $table->tinyInteger('pdf2_status')->default('0');
+            $table->text('pdf3')->nullable();
+            $table->tinyInteger('pdf3_status')->default('0');
+            $table->text('pdf4')->nullable();
+            $table->tinyInteger('pdf4_status')->default('0');
+            $table->text('video_links1')->nullable();
+            $table->tinyInteger('video_links1_status')->default('0');
+            $table->text('video_links2')->nullable();
+            $table->tinyInteger('video_links2_status')->default('0');
+            $table->text('video_links3')->nullable();
+            $table->tinyInteger('video_links3_status')->default('0');
+            $table->text('video_links4')->nullable();
+            $table->tinyInteger('video_links4_status')->default('0');
+            $table->tinyInteger('status')->default('0');
             $table->timestamps();
         });
     }

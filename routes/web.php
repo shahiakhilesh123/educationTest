@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 Route::get('/', function () {
-    return redirect('/login');
+    return view('wel');
 });
 Route::get('/welcome',[App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
 Route::get('/about', [App\Http\Controllers\WelcomeController::class, 'about'])->name('about');

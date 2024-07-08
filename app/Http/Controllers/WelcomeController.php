@@ -30,4 +30,8 @@ class WelcomeController extends Controller
     {
         return view('error');
     }
+    public function welcome()
+    {
+        return view('wel');
+    }
 }

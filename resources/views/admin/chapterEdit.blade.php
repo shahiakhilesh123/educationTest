@@ -14,7 +14,7 @@
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ asset('/home') }}">Home</a></li>
               <li class="breadcrumb-item"><a href="{{ asset('/chapter') }}">Chapter</a></li>
-              <li class="breadcrumb-item active">Add Chapter</li>
+              <li class="breadcrumb-item active">Edit Chapter</li>
             </ol>
           </div>
         </div>
@@ -28,21 +28,21 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add Chapter</h3>
+                <h3 class="card-title">Edit Chapter</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="{{asset('chapter/add')}}" enctype="multipart/form-data">
+              <form method="post" action="{{asset('chapter/edit')}}/{{ $data->id }}" enctype="multipart/form-data">
               @csrf
                 <div class="card-body">
                   <div class="form-group">
                     <label for="name">Chapter Status</label>
-                    <input type="radio" name="status" value="0"  id="status" checked> Free
-                    <input type="radio" name="status" value="1" id="status"> Paid
+                    <input type="radio" name="status" value="0"  id="status" <?php if($data->status == 0) { echo "checked"; }  ?>> Free
+                    <input type="radio" name="status" value="1" id="status" <?php if($data->status == 1) { echo "checked"; }  ?>> Paid
                   </div>
                   <div class="form-group">
                     <label for="name">Chapter Name</label>
-                    <input type="text" name="name" class="form-control" id="name">
+                    <input type="text" name="name" class="form-control" value="{{ $data->name }}" id="name">
                     @error('name')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -55,12 +55,13 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Chapter Description</label>
-                    <textarea id="summernote" style="height: 360px;" name="description">
+                    <textarea id="summernote" style="height: 360px;" value="{{ $data->detail }}" name="description">
                     </textarea>
                 </div>
                   <div class="form-group">
                     <label for="name">Upload First Pdf</label>
                     <input type="file" name="pdf1" class="form-control" id="pdf1">
+                    {{ $data->pdf1 }}
                     @error('pdf1')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -72,12 +73,13 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <input type="radio" name="pdf1_status" value="0"  id="pdf1_status" checked> Free
-                    <input type="radio" name="pdf1_status" value="1"  id="pdf1_status"> Paid
+                    <input type="radio" name="pdf1_status" value="0"  id="pdf1_status" <?php if($data->pdf1_status == 0) { echo "checked"; }  ?>> Free
+                    <input type="radio" name="pdf1_status" value="1"  id="pdf1_status" <?php if($data->pdf1_status == 1) { echo "checked"; }  ?>> Paid
                   </div>
                   <div class="form-group">
                     <label for="name">Upload Second Pdf</label>
-                    <input type="file" name="pdf2" class="form-control" id="pdf2">
+                    <input type="file" name="pdf2" class="form-control" value="{{ $data->pdf2 }}" id="pdf2">
+                    {{ $data->pdf2 }}
                     @error('pdf2')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -89,12 +91,13 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <input type="radio" name="pdf2_status" value="0" id="pdf2_status" checked> Free
-                    <input type="radio" name="pdf2_status" value="1" id="pdf2_status"> Paid
+                    <input type="radio" name="pdf2_status" value="0" id="pdf2_status" <?php if($data->pdf2_status == 0) { echo "checked"; }  ?>> Free
+                    <input type="radio" name="pdf2_status" value="1" id="pdf2_status" <?php if($data->pdf2_status == 1) { echo "checked"; }  ?>> Paid
                   </div>
                   <div class="form-group">
                     <label for="name">Upload Third Pdf</label>
                     <input type="file" name="pdf3" class="form-control" id="pdf3">
+                    {{ $data->pdf3 }}
                     @error('pdf3')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -106,12 +109,13 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <input type="radio" name="pdf3_status" value="0" id="pdf3_status" checked> Free
-                    <input type="radio" name="pdf3_status" value="1" id="pdf3_status"> Paid
+                    <input type="radio" name="pdf3_status" value="0" id="pdf3_status" <?php if($data->pdf3_status == 0) { echo "checked"; }  ?>> Free
+                    <input type="radio" name="pdf3_status" value="1" id="pdf3_status" <?php if($data->pdf2_status == 1) { echo "checked"; }  ?>> Paid
                   </div>
                   <div class="form-group">
                     <label for="name">Upload Fourth Pdf</label>
                     <input type="file" name="pdf4" class="form-control" id="pdf4">
+                    {{ $data->pdf4 }}
                     @error('pdf4')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -123,12 +127,12 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <input type="radio" name="pdf4_status" value="0" id="pdf4_status" checked> Free
-                    <input type="radio" name="pdf4_status" value="1" id="pdf4_status"> Paid
+                    <input type="radio" name="pdf4_status" value="0" id="pdf4_status" <?php if($data->pdf4_status == 0) { echo "checked"; }  ?>> Free
+                    <input type="radio" name="pdf4_status" value="1" id="pdf4_status" <?php if($data->pdf1_status == 1) { echo "checked"; }  ?>> Paid
                   </div>
                   <div class="form-group">
                     <label for="name">Video Firsts Link</label>
-                    <input type="text" name="video_link1" class="form-control" id="video_link1">
+                    <input type="text" name="video_link1" value="{{ $data->video_link1 }}" class="form-control" id="video_link1">
                     @error('video_link1')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -140,12 +144,12 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <input type="radio" name="video_link1_status" value="0"  id="video_link1_status" checked> Free
-                    <input type="radio" name="video_link1_status" value="1" id="video_link1_status"> Paid
+                    <input type="radio" name="video_link1_status" value="0"  id="video_link1_status" <?php if($data->video_link1_status == 0) { echo "checked"; }  ?>> Free
+                    <input type="radio" name="video_link1_status" value="1" id="video_link1_status" <?php if($data->video_link1_status == 1) { echo "checked"; }  ?>> Paid
                   </div>
                   <div class="form-group">
                     <label for="name">Video Second Link</label>
-                    <input type="text" name="video_link2" class="form-control" id="video_link2">
+                    <input type="text" name="video_link2" value="{{ $data->video_link2 }}" class="form-control" id="video_link2">
                     @error('video_link2')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -157,12 +161,12 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <input type="radio" name="video_link2_status" value="0" id="video_link2_status" checked> Free
-                    <input type="radio" name="video_link2_status" value="1" id="video_link2_status"> Paid
+                    <input type="radio" name="video_link2_status" value="0" id="video_link2_status" <?php if($data->video_link2_status == 0) { echo "checked"; }  ?>> Free
+                    <input type="radio" name="video_link2_status" value="1" id="video_link2_status" <?php if($data->video_link2_status == 1) { echo "checked"; }  ?>> Paid
                   </div>
                   <div class="form-group">
                     <label for="name">Video Third Link</label>
-                    <input type="text" name="video_link3" class="form-control" id="video_link3">
+                    <input type="text" name="video_link3" value="{{ $data->vieo_link3 }}" class="form-control" id="video_link3">
                     @error('video_link3')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -174,12 +178,12 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <input type="radio" name="video_link3_status" value="0" id="video_link3_status" checked> Free
-                    <input type="radio" name="video_link3_status" value="1" id="video_link3_status"> Paid
+                    <input type="radio" name="video_link3_status" value="0" id="video_link3_status" <?php if($data->video_link3_status == 0) { echo "checked"; }  ?>> Free
+                    <input type="radio" name="video_link3_status" value="1" id="video_link3_status" <?php if($data->video_link3_status == 1) { echo "checked"; }  ?>> Paid
                   </div>
                   <div class="form-group">
                     <label for="name">Video Fourth Link</label>
-                    <input type="text" name="video_link4" class="form-control" id="video_link4">
+                    <input type="text" name="video_link4" value="{{ $data->video_link4 }}" class="form-control" id="video_link4">
                     @error('video_link4')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -191,8 +195,8 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <input type="radio" name="video_link4_status" value="0" id="video_link4_status" checked> Free
-                    <input type="radio" name="video_link4_status" value="1" id="video_link4_status"> Paid
+                    <input type="radio" name="video_link4_status" value="0" id="video_link4_status" <?php if($data->video_link4_status == 0) { echo "checked"; }  ?>> Free
+                    <input type="radio" name="video_link4_status" value="1" id="video_link4_status" <?php if($data->video_link4_status == 1) { echo "checked"; }  ?>> Paid
                   </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
