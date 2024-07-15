@@ -148,12 +148,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Test List</h1>
+            <h1>Question List</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/home">Home</a></li>
-              <li class="breadcrumb-item active">Test List</li>
+              <li class="breadcrumb-item"><a href="/test">Test</a></li>
+              <li class="breadcrumb-item active">Question List</li>
             </ol>
           </div>
         </div>
@@ -168,7 +169,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Test</h3>
+                <h3 class="card-title">Question</h3>
                 <?php  $user = Auth::user();
                 $role = App\Models\Role::where('id', $user->role)->get()->first(); 
                 $permission = explode(',', $role->permission_id);
@@ -180,8 +181,8 @@
 
                     <!-- <div class="input-group-append"> -->
                       <?php if(in_array('Add', $permission)){ ?>
-                      <a href="{{ asset('/test') }}/add" class="btn btn-primary ">
-                        Add Test
+                      <a href="{{ asset('/test/question') }}/add/{{ $datas['test']}}" class="btn btn-primary ">
+                        Add Question
                       </a>  
                       <?php } ?>
                     <!-- </div> -->
@@ -194,24 +195,22 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Test Name</th>
-                      <th>Duration</th>
+                      <th>Question Name</th>
+                      <th>Status</th>
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                  @if(count($all) > 0)
-                    @foreach($all as $data)
+                  @if(count($datas['all']) > 0)
+                    @foreach($datas['all'] as $data)
                       <tr>
                         <td>{{ $data->id }}</td>
-                        <td>{{ $data->name}}</td>
-                        <td>{{ $data->duration}}</td>
+                        <td>{{ $data->question}}</td>
+                        <td>{{ $data->status}}</td>
                         <td>
                           <?php if(in_array('Edit', $permission)){ ?>
-                          <a href="{{ asset('test') }}/edit/{{$data->id}}"><i class="fas fa-edit"></i></a>
+                          <a href="{{ asset('test/question') }}/edit/{{ $datas['test']}}/{{$data->id}}"><i class="fas fa-edit"></i></a>
                           <?php } ?>
-                          <a href="{{ asset('test') }}/question/list/{{$data->id}}"><i class="fa fa-question-circle"></i></a>
-                          <a href="{{ asset('test') }}/view/{{$data->id}}"><i class="fa fa-eye"></i></a>
                         </td>
                       </tr>
                     @endforeach
@@ -222,7 +221,7 @@
                 </table>
               </div>
               <div class="card-footer clearfix">
-              {{ $all->links() }}
+              {{ $datas['all']->links() }}
               </div>
               <!-- /.card-body -->
             </div>
