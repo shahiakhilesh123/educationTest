@@ -161,4 +161,8 @@ class ChapterController extends Controller
         }
         return redirect('chapter');        
     }
+    public function view($id){
+        $chapter = Chapter::where('id', $id)->first();
+        return view('admin/chapterView')->with('data', $chapter);
+    }
 }

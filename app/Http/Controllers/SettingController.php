@@ -13,6 +13,14 @@ class SettingController extends Controller
     }
     public function saveSetting(Request $request)
     {
+        $setting = Setting::where('id', '1')->get()->first();
+        $logo = $setting->logo;
+        if(isset($request->logo)){
+            $destinationPath1 = public_path('file');
+            $logo = $request->logo->getClientOriginalName();
+            $logo = str_replace(' ', '_',$logo);
+            $logo = pathinfo($logo, PATHINFO_FILENAME).time() . '.'. $request->logo->extension();
+        }
         Setting::where('id', 1)->update([
             'site_name' => $request->site_name,
             'meta_tag' => $request->meta_tag,
@@ -21,20 +29,28 @@ class SettingController extends Controller
             'youtube' => $request->youtube,
             'facebook' => $request->facebook,
             'instagram' => $request->instagram,
-            'slider_header' => $request->slider_header,
-            'slider_text' => $request->slider_text,
-            'file' => $request->file,
-            'category' => $request->category,
-            'secound_row_first_file' => $request->secound_row_first_col_category,
-            'secound_row_secound_col_category' => $request->secound_row_secound_col_category,
-            'secound_row_third_file' => $request->secound_row_third_file,
-            'third_row_category' => $request->third_row_category,
-            'fourth_row_first_image' => $request->fourth_row_first_image,
-            'fourth_row_first_cat' => $request->fourth_row_first_cat,
-            'fourth_row_secound_cat' => $request->fourth_row_category,
-            'fifth_row_first_cat' => $request->fifth_row_first_col_category,
-            'fifth_row_second_cat' => $request->fifth_row_second_col_category,
+            'logo' => $logo,
+        ]);
+        if(isset($request->logo)){
+            $request->logo->move($destinationPath1,$logo);
+        }
+        return redirect('setting');
+    }
+    public function saveSettingCategory(Request $request)
+    {
+        Setting::where('id', 1)->update([
+            'course_category' => implode(',', $request->subject_cat),
         ]);
         return redirect('setting');
     }
+    public function saveSettingCourse(Request $request)
+    {
+        Setting::where('id', 1)->update([
+            'course' => implode(',', $request->course),
+        ]);
+        return redirect('setting');
+    }
+    
+    // 'course_category' => implode(',',$request->category),
+    //         'course' => implode(',',$request->course),
 }

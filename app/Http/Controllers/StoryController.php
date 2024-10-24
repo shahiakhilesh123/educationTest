@@ -7,27 +7,112 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\State;
+use App\Models\Course;
+use App\Models\Batch;
+use App\Models\Test;
+use App\Models\CourseUserMap;
+use App\Models\studyMaterialModel;
+use Illuminate\Support\Facades\Hash;
 class StoryController extends Controller
 {
     public function showStory($cat_name, $name)
     {
-        //echo $blog_name = str_replace('-', ' ', $name);
-        $blog = Blog::where('site_url', $name)->with('images')->first();
-        $author =  User::where('id', $blog->author)->first();
-        $category = Category::where('id', $blog->categories_ids)->first();
-        $other_blog = Blog::where('id','!=', $blog->id)->with('thumbnail')->where('categories_ids', $blog->categories_ids)->with('images')->limit(6)->get()->all();
-        $latests = Blog::where('id','!=', $blog->id)->whereNull('link')->with('thumbnail')->with('images')->orderBy('created_at', 'DESC')->limit(6)->get()->all();
-        //$videos_latests = Blog::where('id','!=', $blog->id)->whereNotNull('link')->with('thumbnail')->with('images')->orderBy('id', 'DESC')->limit(6)->get()->all();
-        return view('detail')->with('data', ['blog'=> $blog, 'relates'=> $other_blog, 'latests' => $latests, 'category' => $category, 'author' => $author]);
     }
-    public function category($name)
+    public function courseDetail($id)
     {
-        $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
-        $count = 10;
-        $category = Category::where('site_url', $name)->first();
-        $blog = Blog::where('categories_ids', $category->id)->where('status', 1)->with('images')->orderBy('created_at', 'DESC')->paginate($count);
-        $blog->setPath(asset('/').$name);
-        return view('category',['category'=> $category,'blogs' => $blog, 'page' => $page, 'count' => $count]);
+        $course = Course::where('id', $id)->first();
+        return view('courseDetail')->with('course', $course);
+    }
+    public function courseBatchList($course)
+    {
+        $course = str_replace('_', ' ', $course);
+        $course = Course::where('course_name', $course)->first();
+        $batches = [];
+        if(isset($course->id)) {
+            $batches = Batch::where('course_id', $course->id)->where('batch_mode', '1')->get();
+        }
+        return view('batchList')->with('data', ['batches' => $batches, 'course' => $course, 'type' => 1]);
+    }
+    public function courseBatchListOffline($course) 
+    {
+        $course = str_replace('_', ' ', $course);
+        $course = Course::where('course_name', $course)->first();
+        $batches = [];
+        if(isset($course->id)) {
+            $batches = Batch::where('course_id', $course->id)->where('batch_mode', '0')->get();
+        }
+        return view('batchList')->with('data', ['batches' => $batches, 'course' => isset($course->id) ? $course : [] , 'type' => 0]);
+    }
+    public function studyBatchList($course) 
+    {
+        $course = str_replace('_', ' ', $course);
+        $course = Course::where('course_name', $course)->first();
+        $study = [];
+        if(isset($course->id)) {
+            $study = studyMaterialModel::where('course_id', $course->id)->get();
+        }
+        return view('studylist')->with('data', ['studies' => $study, 'course' => isset($course->id) ? $course : [] , 'type' => 0]);
+    }
+    public function testList($mode) 
+    {
+        $course = str_replace('_', ' ', $mode);
+        $course = Course::where('course_name', $course)->first();
+        $test = Test::where('course_id', $course->id)->whereNotNull('batch_id')->get();
+        return view('testList')->with('data', ['tests' =>  isset($course->id) ? $test : [], 'course' => isset($course->id) ? $course : [] , 'type' => 0]);
+    }
+    public function joinCourse($course_id, $batch_id)
+    {
+        return view('joinCourse')->with('data' ,['course_id' => $course_id, 'batch_id' => $batch_id]);
+    }
+    public function payAndRegister($course_id, $batch_id)
+    {
+        return view('pay');
+    }
+    public function createJoinCourse($course_id, $batch_id, Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'date_of_birth' => ['required'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        $destinationPath = public_path('file');
+        $aadhar_id = $request->file_adhar->getClientOriginalName();
+        $aadhar_id = str_replace(' ', '_',$aadhar_id);
+        $aadhar_id = pathinfo($aadhar_id, PATHINFO_FILENAME).time() . '.'. $request->file_adhar->extension();
+        $marksheet = $request->file_marks->getClientOriginalName();
+        $marksheet = str_replace(' ', '_',$marksheet);
+        $marksheet = pathinfo($marksheet, PATHINFO_FILENAME).time() . '.'. $request->file_marks->extension();
+        $image = $request->file_image->getClientOriginalName();
+        $image = str_replace(' ', '_',$image);
+        $image = pathinfo($image, PATHINFO_FILENAME).time() . '.'. $request->file_image->extension();
+        $user = User::create([
+            'role' => '2',
+            'name' =>  $request->name,
+            'email' => $request->email,
+            'date_of_birth' => $request->date_of_birth,
+            'aadhar_id' => $aadhar_id,
+            'marksheet' => $marksheet,
+            'image' => $image,
+            'address' => $request->address,
+            'password' => Hash::make($request->password),
+        ]);
+        CourseUserMap::create([
+            'user_id' => $user->id,
+            'course_id' =>  $course_id,
+            'batch_id' => $batch_id,
+            'status' => 1,
+        ]);
+        $request->file_marks->move($destinationPath,$marksheet);
+        $request->file_adhar->move($destinationPath,$aadhar_id);
+        $request->file_image->move($destinationPath,$image);
+        return redirect('login');
+    }
+    public function batchList($course_id)
+    {
+        $course = Course::where('id', $course_id)->first();
+        $batches = Batch::where('course_id', $course_id)->get();
+        return view('batchList')->with('data', ['batches' => $batches, 'course' => $course]);
     }
     public function privacy()
     {
@@ -44,35 +129,5 @@ class StoryController extends Controller
     public function about()
     {
         return view('about');
-    }
-    public function search()
-    {
-        $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
-        $search = isset($_REQUEST['search']) ? $_REQUEST['search'] : '';
-        $count = 10;
-        //$category = Category::where('site_url', $name)->first();
-        $blog = Blog::where('name', 'like', '%' . $search . '%')->orWhere('tags', 'like', '%' . $search . '%')->where('status', 1)->with('images')->orderBy('created_at', 'DESC')->paginate($count);
-        $blog->setPath(asset('/search').'?search='.$search);
-        return view('search',['blogs' => $blog, 'search' => $search, 'page' => $page, 'count' => $count]);
-    }
-    public function author($name)
-    {
-        $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
-        $count = 10;
-        $name = str_replace('_', ' ', $name);
-        $user  = User::where('url_name', $name)->first();
-        $blog = Blog::where('author', $user->id)->where('status', 1)->with('images')->orderBy('created_at', 'DESC')->paginate($count);
-        $blog->setPath(asset('/').$name);
-        return view('author',['users'=> $user,'blogs' => $blog, 'page' => $page, 'count' => $count]);
-    }
-    public function state($name)
-    {
-        $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
-        $count = 10;
-        $name = str_replace('_', ' ', $name);
-        $state  = State::where('name', $name)->first();
-        $blog = Blog::where('state_ids', $state->id)->where('status', 1)->with('images')->orderBy('created_at', 'DESC')->paginate($count);
-        $blog->setPath(asset('/').$name);
-        return view('state',['state'=> $state,'blogs' => $blog, 'page' => $page, 'count' => $count]);
     }
 }

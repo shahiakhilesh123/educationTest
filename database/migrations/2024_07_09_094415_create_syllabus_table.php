@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('subject_id')->nullable();
             $table->tinyInteger('batch_id')->nullable();
             $table->text('chapter_ids')->nullable();
+            $table->text('test_ids')->nullable();
             $table->tinyInteger('status')->default('0');
             $table->timestamps();
         });

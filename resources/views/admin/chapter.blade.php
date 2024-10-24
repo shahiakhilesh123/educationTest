@@ -216,6 +216,9 @@
                           <?php if(in_array('Edit', $permission)){ ?>
                           <a href="{{ asset('chapter') }}/edit/{{$data->id}}"><i class="fas fa-edit"></i></a>
                           <?php } ?>
+                          <?php if(in_array('View', $permission)){ ?>
+                          <a href="{{ asset('chapter') }}/view/{{$data->id}}"><i class="fas fa-eye"></i></a>
+                          <?php } ?>
                         </td>
                       </tr>
                     @endforeach

@@ -42,19 +42,18 @@ hr {
   width: 40%;
 }
 </style>
-<body>
+<body style="background-color: rebeccapurple;">
 
 <div class="bgimg">
   <div class="topleft">
-    <p>Logo</p>
+        &nbsp;
   </div>
   <div class="middle">
     <h1>COMING SOON</h1>
     <hr>
-    <p>35 days left</p>
   </div>
   <div class="bottomleft">
-    <p>Some text</p>
+      &nbsp;
   </div>
 </div>
 

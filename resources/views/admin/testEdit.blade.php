@@ -32,7 +32,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="{{asset('test/edit')}}/{{ $data->id }}">
+              <form method="post" action="{{asset('test/edit')}}/{{ $data->id }}" enctype="multipart/form-data">
               @csrf
                 <div class="card-body">
                   <div class="form-group">
@@ -49,10 +49,56 @@
                     @enderror
                   </div>
                   <div class="form-group">
+                    <label for="name">Course Brief</label>
+                    <textarea name="description" class="form-control summernote" id="description">{{ $data->description }}</textarea>
+                    @error('description')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('description') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Upload Image</label>
+                    <input type="file" name="image" class="form-control" id="image">
+                    {{ $data->image }}
+                    @error('image')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('image') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Select Fee</label>
+                    <div class="select2-purple">
+                        <select class="form-control" name="status">
+                            <option value="" >Select Fee</option>
+                            <option value="0" <?php if($data->status == 0){ echo "selected"; } ?>>Free</option>
+                            <option value="1" <?php if($data->status == 1){ echo "selected"; } ?>>Payable </option>
+                        </select>
+                    </div>
+                    @error('status')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('status') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
                     <label for="exampleInputPassword1">Select Course</label>
                     <?php $courses = App\Models\Course::get(); ?>
                       <select class="form-control" name="course">
-                        <option value="0">Select Course</option>
+                        <option value="0">Select Fee</option>
                         @foreach($courses as $course)
                           <option value="{{ $course->id }}" <?php if($data->course_id == $course->id){ echo "selected"; } ?>>{{ $course->course_name }}</option>
                         @endforeach
@@ -62,6 +108,25 @@
                           <div class="input-group-text">
                             <!-- <span class="fas fa-envelope"> -->
                             {{ $errors->first('course') }}
+                            <!-- </span> -->
+                          </div>
+                        </div>
+                      @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Select Batch</label>
+                    <?php $batches = App\Models\Batch::get(); ?>
+                      <select class="form-control" name="batch">
+                        <option value="0">Select Batch</option>
+                        @foreach($batches as $batch)
+                          <option value="{{ $batch->id }}" <?php if($data->batch_id == $batch->id){ echo "selected"; } ?>>{{ $batch->batch_name }}</option>
+                        @endforeach
+                      </select>
+                      @error('batch')
+                        <div class="input-group-append">
+                          <div class="input-group-text">
+                            <!-- <span class="fas fa-envelope"> -->
+                            {{ $errors->first('batch') }}
                             <!-- </span> -->
                           </div>
                         </div>
@@ -88,7 +153,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Start Date</label>
-                    <input type="date" class="form-control" id="start_date" value="{{ $data->start_date }}" name="start_date">
+                    <input type="date" class="form-control" id="start_date" value="{{ date("Y-m-d", strtotime($data->start_date) ) }}" name="start_date">
                     @error('start_date')
                         <div class="input-group-append">
                           <div class="input-group-text">
@@ -101,7 +166,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">End Date</label>
-                    <input type="date" class="form-control" id="end_date" value="{{ $data->end_date }}" name="end_date">
+                    <input type="date" class="form-control" id="end_date" value="{{ date("Y-m-d", strtotime($data->end_date) ) }}" name="end_date">
                     @error('end_date')
                         <div class="input-group-append">
                           <div class="input-group-text">

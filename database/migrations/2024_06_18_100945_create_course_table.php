@@ -20,6 +20,8 @@ return new class extends Migration
             $table->tinyText('course_mantra');
             $table->tinyText('course_mission');
             $table->tinyText('course_criteria');
+            $table->string('image');
+            $table->string('amount');
             $table->tinyInteger('status');
             $table->timestamps();
         });

@@ -49,6 +49,51 @@
                     @enderror
                   </div>
                   <div class="form-group">
+                    <label for="name">Course Brief</label>
+                    <textarea name="description" class="form-control summernote" id="description"></textarea>
+                    @error('description')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('description') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Upload Image</label>
+                    <input type="file" name="image" class="form-control" id="image">
+                    @error('image')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('image') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Select Fee</label>
+                    <div class="select2-purple">
+                        <select class="form-control" name="status">
+                            <option value="">Select Fee</option>
+                            <option value="0">Free</option>
+                            <option value="1">Payable </option>
+                        </select>
+                    </div>
+                    @error('status')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('status') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
                     <label for="exampleInputPassword1">Select Course</label>
                     <?php $courses = App\Models\Course::get(); ?>
                       <select class="form-control" name="course">
@@ -62,6 +107,25 @@
                           <div class="input-group-text">
                             <!-- <span class="fas fa-envelope"> -->
                             {{ $errors->first('course') }}
+                            <!-- </span> -->
+                          </div>
+                        </div>
+                      @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Select Batch</label>
+                    <?php $batches = App\Models\Batch::get(); ?>
+                      <select class="form-control" name="batch">
+                        <option value="0">Select Batch</option>
+                        @foreach($batches as $batch)
+                          <option value="{{ $batch->id }}" >{{ $batch->batch_name }}</option>
+                        @endforeach
+                      </select>
+                      @error('batch')
+                        <div class="input-group-append">
+                          <div class="input-group-text">
+                            <!-- <span class="fas fa-envelope"> -->
+                            {{ $errors->first('batch') }}
                             <!-- </span> -->
                           </div>
                         </div>

@@ -55,7 +55,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Chapter Description</label>
-                    <textarea id="summernote" style="height: 360px;" value="{{ $data->detail }}" name="description">
+                    <textarea class="summernote" style="height: 360px;" value="{{ $data->detail }}" name="description">
                     </textarea>
                 </div>
                   <div class="form-group">

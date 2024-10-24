@@ -173,7 +173,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="{{asset('batch/add')}}">
+              <form method="post" action="{{asset('batch/add')}}" enctype="multipart/form-data">
               @csrf
                 <div class="card-body">
                   <div class="form-group">
@@ -190,10 +190,30 @@
                     @enderror
                   </div>
                   <div class="form-group">
+                    <label for="name">Select Course</label>
+                    <div class="select2-purple">
+                        <select class="form-control" name="batch_id">
+                            <option value="">Select Course</option>
+                            <?php $courses = App\Models\Course::get()->all() ?>
+                            @foreach($courses as $course)
+                              <option value="{{ $course->id }}" >{{ $course->course_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('batch_id')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('batch_id') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
                     <label for="name">Select Subject</label>
                     <div class="select2-purple">
-                        <select class="form-control" name="subject">
-                            <option value="">Select Subject</option>
+                        <select class="form-control" name="subject[]" multiple>
                             <?php $Subjects = App\Models\Subject::where('status', 1)->get()->all() ?>
                             @foreach($Subjects as $subject)
                               <option value="{{ $subject->id }}" >{{ $subject->subject_name }}</option>
@@ -246,12 +266,25 @@
                   </div>
                   <div class="form-group">
                     <label for="name">Batch Start Time</label>
-                    <input type="time" name="start_time" class="form-control" id="start_time">
+                    <input type="text" name="start_time" class="form-control" id="start_time">
                     @error('start_time')
                       <div class="input-group-append">
                         <div class="input-group-text">
                           <!-- <span class="fas fa-envelope"> -->
                           {{ $errors->first('start_time') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Batch Size</label>
+                    <input type="number" name="batch_size" class="form-control" id="batch_size">
+                    @error('batch_size')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('batch_size') }}
                           <!-- </span> -->
                         </div>
                       </div>
@@ -265,6 +298,19 @@
                         <div class="input-group-text">
                           <!-- <span class="fas fa-envelope"> -->
                           {{ $errors->first('phone_number') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Upload Image</label>
+                    <input type="file" name="image" class="form-control" id="image">
+                    @error('image')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('image') }}
                           <!-- </span> -->
                         </div>
                       </div>
@@ -286,6 +332,45 @@
                         <div class="input-group-text">
                           <!-- <span class="fas fa-envelope"> -->
                           {{ $errors->first('medium') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Previous Fee Amount</label>
+                    <input type="text" name="amount" class="form-control" id="amount">
+                    @error('amount')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('amount') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Current Fee Amount</label>
+                    <input type="text" name="cu_amount" class="form-control" id="cu_amount">
+                    @error('cu_amount')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('cu_amount') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Duration (In Minutes)</label>
+                    <input type="text" name="duration" class="form-control" id="duration">
+                    @error('duration')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('duration') }}
                           <!-- </span> -->
                         </div>
                       </div>

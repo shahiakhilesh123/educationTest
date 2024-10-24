@@ -49,8 +49,8 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <label for="name">About Course</label>
-                    <input type="text" name="about_course" value="{{ $data->about_course }}" class="form-control" id="about_course">
+                    <label for="name">Course Brief</label>
+                    <textarea name="about_course" class="form-control summernote" id="about_course">{{ $data->brief }}</textarea>
                     @error('about_course')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -62,8 +62,8 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <label for="name">About Mantra</label>
-                    <input type="text" name="course_mantra" value="{{ $data->course_mantra }}" class="form-control" id="course_mantra">
+                    <label for="name">About Description</label>
+                    <textarea name="course_mantra" class="form-control summernote" id="course_mantra">{{ $data->description }}</textarea>
                     @error('course_mantra')
                       <div class="input-group-append">
                         <div class="input-group-text">
@@ -75,26 +75,28 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <label for="name">About Mission</label>
-                    <input type="text" name="course_mission" value="{{ $data->course_mission }}" class="form-control" id="course_mission">
-                    @error('course_mission')
+                    <label for="name">Upload Image</label>
+                    <input type="file" name="image" class="form-control" id="image">
+                    {{ $data->image }}
+                    @error('image')
                       <div class="input-group-append">
                         <div class="input-group-text">
                           <!-- <span class="fas fa-envelope"> -->
-                          {{ $errors->first('course_mission') }}
+                          {{ $errors->first('image') }}
                           <!-- </span> -->
                         </div>
                       </div>
                     @enderror
                   </div>
                   <div class="form-group">
-                    <label for="name">About Criteria</label>
-                    <input type="text" name="course_criteria" value="{{ $data->course_criteria }}" class="form-control" id="course_criteria">
-                    @error('course_criteria')
+                    <label for="name">Upload Course Index</label>
+                    <input type="file" name="pdf" class="form-control" id="pdf">
+                    {{ $data->course_index_pdf }}
+                    @error('pdf')
                       <div class="input-group-append">
                         <div class="input-group-text">
                           <!-- <span class="fas fa-envelope"> -->
-                          {{ $errors->first('course_criteria') }}
+                          {{ $errors->first('pdf') }}
                           <!-- </span> -->
                         </div>
                       </div>

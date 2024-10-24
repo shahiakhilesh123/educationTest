@@ -153,6 +153,19 @@
                     @enderror
                   </div>
                   <div class="form-group">
+                    <label for="name">Marks</label>
+                    <input type="text" name="marks" value="{{ old('marks') }}" class="form-control" id="marks">
+                    @error('marks')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('marks') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
                     <label for="exampleInputPassword1">Duration</label>
                     <input type="text" class="form-control" id="duration" value="{{ old('duration') }}" name="duration">
                     @error('duration')

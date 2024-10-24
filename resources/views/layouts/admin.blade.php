@@ -117,7 +117,7 @@
     // Summernote
     //$('#summernote').summernote()
 
-    $('#summernote').summernote({
+    $('.summernote').summernote({
       toolbar: [
         ['style', ['style']],
         ['font', ['bold', 'italic', 'underline', 'clear']],

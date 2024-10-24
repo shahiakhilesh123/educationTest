@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Setting;
+
 
 class WelcomeController extends Controller
 {
     public function index()
     {   
-        return view('welcome');
+        $setting = Setting::first();
+        return view('welcome')->with('setting', $setting);
     }
     public function about()
     {
-        return view('welcome');
+        $setting = Setting::first();
+        return view('about')->with('setting', $setting);
     }
     public function courses()
     {

@@ -34,6 +34,7 @@ Route::post('/menuedit/{id}', [App\Http\Controllers\MenuController::class,'menue
 Route::prefix('/course')->group(function () {
     Route::get('/', [App\Http\Controllers\CourseController::class, 'index'])->name('CourseList');
     Route::get('/add', [App\Http\Controllers\CourseController::class, 'add'])->name('addCourse');
+    Route::get('/{id}', [App\Http\Controllers\StoryController::class, 'courseDetail'])->name('courseDetail');
     Route::post('/add', [App\Http\Controllers\CourseController::class, 'save'])->name('SaveCourse');
     Route::get('/edit/{id}', [App\Http\Controllers\CourseController::class, 'edit'])->name('EditCourse');
     Route::post('/edit/{id}', [App\Http\Controllers\CourseController::class, 'saveEdit'])->name('SaveEditCourse');
@@ -65,6 +66,7 @@ Route::prefix('/chapter')->group(function () {
     Route::post('/add', [App\Http\Controllers\ChapterController::class, 'save'])->name('SaveChapter');
     Route::get('/edit/{id}', [App\Http\Controllers\ChapterController::class, 'edit'])->name('EditChapter');
     Route::post('/edit/{id}', [App\Http\Controllers\ChapterController::class, 'saveEdit'])->name('SaveEditChapter');
+    Route::get('/view/{id}', [App\Http\Controllers\ChapterController::class, 'view'])->name('ChapterView');
 });
 Route::prefix('roles')->group(function () {
     Route::get('/', [App\Http\Controllers\RoleController::class, 'index'])->name('RoleList');
@@ -86,6 +88,7 @@ Route::prefix('syllabus')->group(function () {
     Route::post('/add', [App\Http\Controllers\SyllabusController::class, 'save'])->name('SyllabusAdd');
     Route::get('edit/{id}', [App\Http\Controllers\SyllabusController::class, 'edit'])->name('editSyllabus');
     Route::post('edit/{id}', [App\Http\Controllers\SyllabusController::class, 'editSave'])->name('SyllabusSave');
+    Route::get('view/{id}',[App\Http\Controllers\SyllabusController::class, 'view'])->name('syllabusView');
 });
 Route::prefix('test')->group(function () {
     Route::get('/', [App\Http\Controllers\TestController::class, 'index'])->name('testList');
@@ -94,11 +97,40 @@ Route::prefix('test')->group(function () {
     Route::get('edit/{id}', [App\Http\Controllers\TestController::class, 'edit'])->name('editTest');
     Route::post('edit/{id}', [App\Http\Controllers\TestController::class, 'editSave'])->name('testSave');
     Route::get('view/{id}', [App\Http\Controllers\TestController::class, 'view'])->name('testView');
+    Route::get('view/{id}/{question_id}', [App\Http\Controllers\TestController::class, 'view'])->name('testMultiView');
     Route::get('question/add/{id}', [App\Http\Controllers\TestController::class, 'addQuestion'])->name('questionSave');
     Route::post('question/add/{id}', [App\Http\Controllers\TestController::class, 'saveQuestion'])->name('saveQuestion');
     Route::get('question/list/{id}', [App\Http\Controllers\TestController::class, 'questionList'])->name('questionList');
     Route::get('question/edit/{test_id}/{id}', [App\Http\Controllers\TestController::class, 'questionEdit'])->name('questionEdit');
     Route::post('question/edit/{test_id}/{id}', [App\Http\Controllers\TestController::class, 'questionEditSave'])->name('questionEditSave');
+    Route::get('{mode}', [App\Http\Controllers\StoryController::class, 'testList'])->name('testListMode');
+});
+Route::prefix('setting')->group(function () {
+    Route::get('/', [App\Http\Controllers\SettingController::class, 'index'])->name('Setting');
+    Route::post('/', [App\Http\Controllers\SettingController::class, 'saveSetting'])->name('saveSetting');
+    Route::post('/category', [App\Http\Controllers\SettingController::class, 'saveSettingCategory'])->name('saveSettingCategory');
+    Route::post('/course', [App\Http\Controllers\SettingController::class, 'saveSettingCourse'])->name('saveSettingCourse');
+});
+Route::prefix('join')->group(function () {
+    Route::get('/{course_id}/{batch_id}', [App\Http\Controllers\StoryController::class, 'joinCourse'])->name('joinCourse');
+    Route::post('/{course_id}/{batch_id}', [App\Http\Controllers\StoryController::class, 'createJoinCourse'])->name('createJoinCourse');
+});
+Route::prefix('batch')->group(function () {
+    Route::get('/{course_id}', [App\Http\Controllers\StoryController::class, 'batchList'])->name('batchList');
+});
+Route::prefix('pay')->group(function () {
+    Route::post('/{course_id}/{batch_id}', [App\Http\Controllers\StoryController::class, 'payAndRegister'])->name('pay');
+});
+
+Route::get('online/{course}', [App\Http\Controllers\StoryController::class, 'courseBatchList'])->name('courseBatch');
+Route::get('offline/{course}', [App\Http\Controllers\StoryController::class, 'courseBatchListOffline'])->name('courseBatchOffline');
+Route::prefix('study')->group(function () {
+    Route::get('/material', [App\Http\Controllers\StudyController::class, 'studyMaterialList'])->name('studyMaterialList');
+    Route::get('/material/add', [App\Http\Controllers\StudyController::class, 'add'])->name('studyMaterialAdd');
+    Route::post('/material/add', [App\Http\Controllers\StudyController::class, 'save'])->name('studyMaterialSave');
+    Route::get('/material/edit/{id}', [App\Http\Controllers\StudyController::class, 'edit'])->name('studyMaterialEdit');
+    Route::post('/material/edit/{id}', [App\Http\Controllers\StudyController::class, 'saveEdit'])->name('studyMaterialSaveEdit');
+    Route::get('/{course}', [App\Http\Controllers\StoryController::class, 'studyBatchList'])->name('studyBatchList');
 });
 // Route::get('author/{name}', [App\Http\Controllers\StoryController::class, 'author'])->name('author');
 // Route::get('state/{name}', [App\Http\Controllers\StoryController::class, 'state'])->name('state');

@@ -32,7 +32,7 @@
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
-                            <img class="img-fluid" src="{{ asset('/frontend/img/team-1.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('/public/frontend/img/team-1.jpg') }}" alt="">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -50,7 +50,7 @@
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
-                            <img class="img-fluid" src="{{ asset('/frontend/img/team-2.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('/public/frontend/img/team-2.jpg') }}" alt="">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -68,7 +68,7 @@
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
-                            <img class="img-fluid" src="{{ asset('/frontend/img/team-3.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('/public/frontend/img/team-3.jpg') }}" alt="">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -86,7 +86,7 @@
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
-                            <img class="img-fluid" src="{{ asset('/frontend/img/team-4.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('/public/frontend/img/team-4.jpg') }}" alt="">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -104,7 +104,7 @@
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
-                            <img class="img-fluid" src="{{ asset('/frontend/img/team-2.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('/public/frontend/img/team-2.jpg') }}" alt="">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -122,7 +122,7 @@
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
-                            <img class="img-fluid" src="{{ asset('/frontend/img/team-3.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('/public/frontend/img/team-3.jpg') }}" alt="">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -140,7 +140,7 @@
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
-                            <img class="img-fluid" src="{{ asset('/frontend/img/team-4.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('/public/frontend/img/team-4.jpg') }}" alt="">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -158,7 +158,7 @@
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
                     <div class="team-item bg-light">
                         <div class="overflow-hidden">
-                            <img class="img-fluid" src="{{ asset('/frontend/img/team-1.jpg') }}" alt="">
+                            <img class="img-fluid" src="{{ asset('/public/frontend/img/team-1.jpg') }}" alt="">
                         </div>
                         <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                             <div class="bg-light d-flex justify-content-center pt-2 px-1">

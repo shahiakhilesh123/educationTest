@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Syllabus;
 
 class SyllabusController extends Controller
 {
     public function index()
     {
-        $user = User::where('role', 3)->paginate(20);
-        $user->setPath(asset('/syllabus'));
-        return view('/admin/syllabus', ["all"=>$user]);
+        $syllabus = Syllabus::paginate(20);
+        $syllabus->setPath(asset('/syllabus'));
+        return view('/admin/syllabus', ["all"=>$syllabus]);
     }
     public function add()
     {
@@ -21,55 +22,32 @@ class SyllabusController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'aadhar_id' => 'required',
-            'marksheet' => 'required',
+            'course' => ['required'],
+            'subject' => ['required'],
+            'batch' => ['required'],
+            'chapter' => ['required'],
+            'test' => ['required'],
         ]);
-        $destinationPath = public_path('file');
-        $aadhar_id = $request->aadhar_id->getClientOriginalName();
-        $aadhar_id = str_replace(' ', '_',$aadhar_id);
-        $aadhar_id = pathinfo($aadhar_id, PATHINFO_FILENAME).time() . '.'. $request->aadhar_id->extension();
-        File::create(
-                [
-                    "user_id" => '1',
-                    "file_name" => $aadhar_id,
-                    "file_type" => $request->aadhar_id->getClientMimeType(),
-                    "file_size" => $request->aadhar_id->getSize(),
-                    "full_path" => public_path('file'),
-                ]   
-        );
-        $request->aadhar_id->move($destinationPath,$aadhar_id);
-        $marksheet = $request->marksheet->getClientOriginalName();
-        $marksheet = str_replace(' ', '_',$marksheet);
-        $marksheet = pathinfo($marksheet, PATHINFO_FILENAME).time() . '.'. $request->marksheet->extension();
-        File::create(
-                [
-                    "user_id" => '1',
-                    "file_name" => $marksheet,
-                    "file_type" => $request->marksheet->getClientMimeType(),
-                    "file_size" => $request->marksheet->getSize(),
-                    "full_path" => public_path('file'),
-                ]
-        );
-        $request->marksheet->move($destinationPath,$marksheet);
-        User::create([
-            'role' => '2',
-            'name' =>  $request->name,
-            'url_name' => $request->url_name,
-            'email' => $request->email,
-            'date_of_birth' => $request->date_of_birth,
-            'aadhar_id' => $aadhar_id,
-            'marksheet' => $marksheet,
-            'address' => $request->address,
-            'password' => Hash::make($request->password),
+        Syllabus::create([
+            'name' => $request->name,
+            'course_id' =>  $request->course,
+            'subject_id' => $request->subject,
+            'batch_id' => $request->batch,
+            'chapter_ids' => implode(',',$request->chapter),
+            'test_ids' => implode(',',$request->test),
+            'status' => '1',
         ]);
         return redirect('syllabus');
     }
     public function edit($id)
     {
-        $subject = User::where('id', $id)->first();
+        $subject = Syllabus::where('id', $id)->first();
         return view('admin/syllabusEdit')->with('data', $subject);
+    }
+    public function view($id)
+    {
+        $syllabus = Syllabus::where('id', $id)->first();
+        return view('admin/syllabusView')->with('data', $syllabus);
     }
     public function saveEdit($id, Request $request)
     {
@@ -79,7 +57,7 @@ class SyllabusController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'role' => 'required|string',
         ]);
-        User::where('id', $id)->update([
+        Syllabus::where('id', $id)->update([
             'role' => $request->role,
             'name' =>  $request->name,
             'url_name' => $request->url_name,

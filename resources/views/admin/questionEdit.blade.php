@@ -37,7 +37,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="{{asset('test/question/add')}}/{{$test_data->id}}/{{ $question->id }}" enctype="multipart/form-data">
+              <form method="post" action="{{asset('test/question/edit')}}/{{$test_data->id}}/{{ $question->id }}" enctype="multipart/form-data">
               @csrf
                 <div class="card-body">
                 <div class="form-group">
@@ -63,9 +63,9 @@
                     <label for="exampleInputPassword1">Select Type</label>
                     <?php $questionType = App\Models\QuestionType::where('status', '1')->get(); ?>
                       <select class="form-control" name="question_type">
-                        <option value="0">Select Course</option>
+                        <option value="0">Select Type</option>
                         @foreach($questionType as $type)
-                          <option value="{{ $type->id }}" <?php if($question->question_type ==  $test->id){ echo "selected"; }  ?>>{{ $type->type_name }}</option>
+                          <option value="{{ $type->id }}" <?php if($question->question_type ==  $type->id){ echo "selected"; }  ?>>{{ $type->type_name }}</option>
                         @endforeach
                       </select>
                       @error('question_type')
@@ -151,6 +151,19 @@
                         <div class="input-group-text">
                           <!-- <span class="fas fa-envelope"> -->
                           {{ $errors->first('ans') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Marks</label>
+                    <input type="text" name="marks" value="{{ $question->marks }}" class="form-control" id="marks">
+                    @error('marks')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('marks') }}
                           <!-- </span> -->
                         </div>
                       </div>

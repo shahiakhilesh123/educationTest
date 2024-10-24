@@ -4,7 +4,7 @@
     <?php  $user = Auth::user();
             $role = App\Models\Role::where('id', $user->role)->get()->first(); ?>
     <a href="{{asset('/')}}" class="brand-link">
-      <img src="{{ asset('/admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="{{ asset('/public/admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">{{ $role->role_name }}</span>
     </a>
 

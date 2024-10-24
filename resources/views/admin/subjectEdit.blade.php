@@ -173,7 +173,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" action="{{asset('subject/edit')}}/{{ $data->id }}">
+              <form method="post" action="{{asset('subject/edit')}}/{{ $data->id }}" enctype="multipart/form-data">
               @csrf
                 <div class="card-body">
                   <div class="form-group">
@@ -184,6 +184,20 @@
                         <div class="input-group-text">
                           <!-- <span class="fas fa-envelope"> -->
                           {{ $errors->first('subject_name') }}
+                          <!-- </span> -->
+                        </div>
+                      </div>
+                    @enderror
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Upload Image</label>
+                    <input type="file" name="subject_image" class="form-control" id="subject_image">
+                    {{ $data->subject_image }}
+                    @error('subject_image')
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <!-- <span class="fas fa-envelope"> -->
+                          {{ $errors->first('subject_image') }}
                           <!-- </span> -->
                         </div>
                       </div>
